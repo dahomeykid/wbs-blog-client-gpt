@@ -8,3 +8,9 @@ Toast Notifications: Errors and successes are shown as pop-up notifications, imp
 
 Error Display in UI: Errors are displayed in a styled alert box for visibility.
 
+Here's an improved Homepage UI for the blog app with:
+
+✅ Header Navbar (with a "Create Post" button)
+✅ Main Section (4-column grid layout for posts)
+✅ Footer Section
+
