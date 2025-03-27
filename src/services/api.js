@@ -43,7 +43,7 @@ export const fetchPostById = async (id) => {
 // Create a new post
 export const createPost = async (postData) => {
     try {
-        const response = await axios.post(API_URL, postData);
+        const response = await axios.post(`${API_URL}/posts/$`, postData);
         return response.data;
     } catch (error) {
         const errorMessage = handleError(error);
