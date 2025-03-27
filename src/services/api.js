@@ -1,4 +1,20 @@
+import axios from "axios";
+
 const API_URL = import.meta.env.VITE_API_URL;
+
+// Helper function to handle API errors
+const handleError = (error) => {
+    if (error.response) {
+        // Server responded with a status other than 2xx
+        return error.response.data.message || "Something went wrong! Please try again later.";
+    } else if (error.request) {
+        // The request was made, but no response was received
+        return "Network error! Please check your internet connection.";
+    } else {
+        // Something else caused the error
+        return error.message || "An unexpected error occurred.";
+    }
+};
 
 // Fetch all posts
 export const fetchPosts = async () => {
@@ -6,8 +22,9 @@ export const fetchPosts = async () => {
         const response = await axios.get(`${API_URL}/posts`);
         return response.data;
     } catch (error) {
-        console.error("Error fetching posts:", error.response?.data || error.message);
-        return [];
+        const errorMessage = handleError(error);
+        console.error("Error fetching posts:", errorMessage);
+        return { error: errorMessage };
     }
 };
 
@@ -17,8 +34,9 @@ export const fetchPostById = async (id) => {
         const response = await axios.get(`${API_URL}/posts/${id}`);
         return response.data;
     } catch (error) {
-        console.error(`Error fetching post ${id}:`, error.response?.data || error.message);
-        return null;
+        const errorMessage = handleError(error);
+        console.error(`Error fetching post ${id}:`, errorMessage);
+        return { error: errorMessage };
     }
 };
 
@@ -28,8 +46,9 @@ export const createPost = async (postData) => {
         const response = await axios.post(API_URL, postData);
         return response.data;
     } catch (error) {
-        console.error("Error creating post:", error.response?.data || error.message);
-        return { error: error.response?.data || "Failed to create post" };
+        const errorMessage = handleError(error);
+        console.error("Error creating post:", errorMessage);
+        return { error: errorMessage };
     }
 };
 
@@ -39,8 +58,9 @@ export const updatePost = async (id, updatedData) => {
         const response = await axios.put(`${API_URL}/${id}`, updatedData);
         return response.data;
     } catch (error) {
-        console.error(`Error updating post ${id}:`, error.response?.data || error.message);
-        return { error: error.response?.data || "Failed to update post" };
+        const errorMessage = handleError(error);
+        console.error(`Error updating post ${id}:`, errorMessage);
+        return { error: errorMessage };
     }
 };
 
@@ -51,7 +71,8 @@ export const deletePost = async (id) => {
         await axios.delete(`${API_URL}/${id}`);
         return { success: true };
     } catch (error) {
-        console.error(`Error deleting post ${id}:`, error.response?.data || error.message);
-        return { error: error.response?.data || "Failed to delete post" };
+        const errorMessage = handleError(error);
+        console.error(`Error deleting post ${id}:`, errorMessage);
+        return { error: errorMessage };
     }
 };
