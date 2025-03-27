@@ -1,74 +1,57 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
-// 📌 Get all posts
+// Fetch all posts
 export const fetchPosts = async () => {
     try {
-        const response = await fetch(`${API_URL}/posts`);
-        if (!response.ok) throw new Error("Failed to fetch posts");
-        return await response.json();
+        const response = await axios.get(`${API_URL}/posts`);
+        return response.data;
     } catch (error) {
-        console.error(error.message);
+        console.error("Error fetching posts:", error.response?.data || error.message);
         return [];
     }
 };
 
-// 📌 Get a single post by ID
+// Fetch a single post by ID
 export const fetchPostById = async (id) => {
     try {
-        const response = await fetch(`${API_URL}/posts/${id}`);
-        if (!response.ok) throw new Error("Post not found");
-        return await response.json();
+        const response = await axios.get(`${API_URL}/posts/${id}`);
+        return response.data;
     } catch (error) {
-        console.error(error.message);
+        console.error(`Error fetching post ${id}:`, error.response?.data || error.message);
         return null;
     }
 };
 
-// 📌 Create a new post
+// Create a new post
 export const createPost = async (postData) => {
     try {
-        const response = await fetch(`${API_URL}/posts`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(postData),
-        });
-
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.errors ? data.errors[0].msg : "Failed to create post");
-        return data;
+        const response = await axios.post(API_URL, postData);
+        return response.data;
     } catch (error) {
-        console.error(error.message);
-        return { error: error.message };
+        console.error("Error creating post:", error.response?.data || error.message);
+        return { error: error.response?.data || "Failed to create post" };
     }
 };
 
-// 📌 Update a post
+// Update an existing post
 export const updatePost = async (id, updatedData) => {
     try {
-        const response = await fetch(`${API_URL}/posts/${id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(updatedData),
-        });
-
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.errors ? data.errors[0].msg : "Failed to update post");
-        return data;
+        const response = await axios.put(`${API_URL}/${id}`, updatedData);
+        return response.data;
     } catch (error) {
-        console.error(error.message);
-        return { error: error.message };
+        console.error(`Error updating post ${id}:`, error.response?.data || error.message);
+        return { error: error.response?.data || "Failed to update post" };
     }
 };
 
-// 📌 Delete a post
+
+// Delete a post
 export const deletePost = async (id) => {
     try {
-        const response = await fetch(`${API_URL}/posts/${id}`, { method: "DELETE" });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "Failed to delete post");
-        return data;
+        await axios.delete(`${API_URL}/${id}`);
+        return { success: true };
     } catch (error) {
-        console.error(error.message);
-        return { error: error.message };
+        console.error(`Error deleting post ${id}:`, error.response?.data || error.message);
+        return { error: error.response?.data || "Failed to delete post" };
     }
 };
