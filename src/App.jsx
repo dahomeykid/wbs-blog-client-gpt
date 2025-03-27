@@ -3,6 +3,8 @@ import PostForm from "./components/PostForm";
 import PostList from "./components/PostList";
 import PostDetails from "./components/PostDetails";
 import EditPost from "./components/EditPost";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
     return (
@@ -17,8 +19,10 @@ const App = () => {
                     <Route path="/posts/:id" element={<PostDetails />} />
                     <Route path="/posts/:id/edit" element={<EditPost />} />
                 </Routes>
+                <ToastContainer />
             </div>
         </Router>
     );
 };
+
 export default App;
