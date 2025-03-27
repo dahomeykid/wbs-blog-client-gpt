@@ -37,8 +37,12 @@ const PostDetails = () => {
             <p className="text-gray-600">By {post.author}</p>
             <img src={post.cover} alt="Cover" className="w-full h-60 object-cover my-3 rounded" />
             <p className="mt-2">{post.content}</p>
-            <button onClick={handleDelete} className="bg-red-500 text-white p-2 rounded mt-4">Delete Post</button>
-            <button onClick={() => navigate("/")} className="bg-gray-500 text-white p-2 rounded ml-2">Back</button>
+            
+            <div className="mt-4 flex gap-3">
+                <button onClick={handleDelete} className="bg-red-500 text-white p-2 rounded">Delete Post</button>
+                <Link to={`/posts/${id}/edit`} className="bg-green-500 text-white p-2 rounded">Edit Post</Link>
+                <button onClick={() => navigate("/")} className="bg-gray-500 text-white p-2 rounded">Back</button>
+            </div>
         </div>
     );
 };
