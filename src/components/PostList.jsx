@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchPosts, deletePost } from "../services/api";
+import { Link } from "react-router-dom";
 
 const PostList = () => {
     const [posts, setPosts] = useState([]);
@@ -32,8 +33,10 @@ const PostList = () => {
             <ul>
                 {posts.map(post => (
                     <li key={post.id} className="border p-3 my-2 rounded shadow">
-                        <h3 className="font-bold">{post.title}</h3>
-                        <p>{post.content}</p>
+                        <Link to={`/posts/${post.id}`} className="text-blue-500 font-bold hover:underline">
+                            {post.title}
+                        </Link>
+                        <p>{post.content.substring(0, 100)}...</p>
                         <button onClick={() => handleDelete(post.id)} className="bg-red-500 text-white p-1 rounded mt-2">Delete</button>
                     </li>
                 ))}
