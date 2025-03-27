@@ -1,18 +1,14 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import CreatePost from "./pages/CreatePost";
+import PostForm from "./components/PostForm";
+import PostList from "./components/PostList";
 
-import './App.css'
-
-
-function App() {
+const App = () => {
     return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/create" element={<CreatePost />} />
-            </Routes>
-        </Router>
+        <div className="max-w-2xl mx-auto mt-5">
+            <h1 className="text-2xl font-bold text-center">Blog App</h1>
+            <PostForm onPostCreated={() => window.location.reload()} />
+            <PostList />
+        </div>
     );
-}
-export default App
+};
+
+export default App;
